@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>P-Card Auditor</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+</head>
+
+<body>
+
+    <!-- ========================================
+         TOP NAVIGATION
+    ========================================= -->
+
+    <header class="site-header">
+
+        <div class="nav-container">
+
+            <div class="brand">
+
+                <div class="brand-mark">
+                    P
+                </div>
+
+                <div class="brand-text">
+
+                    <span class="brand-name">
+                        P-Card Auditor
+                    </span>
+
+                    <span class="brand-subtitle">
+                        Transaction Monitoring
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <nav class="top-navigation">
+
+                <button
+                    class="tab-button active"
+                    data-tab="ask-tab"
+                >
+                    Ask the Database
+                </button>
+
+                <button
+                    class="tab-button"
+                    data-tab="dashboard-tab"
+                >
+                    Prohibited Purchases
+                </button>
+
+            </nav>
+
+
+            <div
+                id="database-status"
+                class="header-status checking"
+            >
+
+                <span
+                    id="database-status-dot"
+                    class="status-dot"
+                ></span>
+
+                <span id="database-status-text">
+                    Checking database...
+                </span>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- ========================================
+         MAIN CONTENT
+    ========================================= -->
+
+    <main class="container">
+
+
+        <!-- ====================================
+             ASK THE DATABASE
+        ===================================== -->
+
+       <section
+    id="ask-tab"
+    class="tab-content active"
+>
+
+    <div class="section-heading">
+
+        <h2>
+            Ask the Database
+        </h2>
+
+        <p>
+            Explore purchasing-card activity using natural-language questions.
+        </p>
+
+    </div>
+
+
+    <div class="ask-card">
+
+        <div class="ask-input-header">
+
+            <div>
+                <h3>
+                    What would you like to investigate?
+                </h3>
+
+                <p>
+                    Ask about spending, employees, vendors,
+                    transaction amounts or potential policy exceptions.
+                </p>
+            </div>
+
+        </div>
+
+
+        <textarea
+            id="question"
+            class="ask-input"
+            rows="4"
+            placeholder="Ask a question about the P-Card database..."
+        ></textarea>
+
+
+        <div class="ask-actions">
+
+            <span class="ask-hint">
+                Example: Which employees spent the most in 2014?
+            </span>
+
+            <button
+                id="ask-button"
+                class="primary-button ask-submit-button"
+            >
+                Ask Database
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div class="suggestions-section">
+
+        <div class="suggestions-heading">
+
+            <h3>
+                Suggested questions
+            </h3>
+
+            <p>
+                Select a common audit query to get started.
+            </p>
+
+        </div>
+
+
+        <div class="suggestion-grid">
+
+            <button
+                class="suggestion-button"
+                data-question="How much was spent in 2014?"
+            >
+                <span class="suggestion-title">
+                    Total spending
+                </span>
+
+                <span class="suggestion-description">
+                    How much was spent in 2014?
+                </span>
+            </button>
+
+
+            <button
+                class="suggestion-button"
+                data-question="Which 10 employees spent the most in 2014?"
+            >
+                <span class="suggestion-title">
+                    Top employees
+                </span>
+
+                <span class="suggestion-description">
+                    Find the 10 highest-spending employees.
+                </span>
+            </button>
+
+
+            <button
+                class="suggestion-button"
+                data-question="Which employees spent more than $50,000 in 2014?"
+            >
+                <span class="suggestion-title">
+                    Spending threshold
+                </span>
+
+                <span class="suggestion-description">
+                    Employees spending above $50,000.
+                </span>
+            </button>
+
+
+            <button
+                class="suggestion-button"
+                data-question="Which vendors received the highest payments in 2014?"
+            >
+                <span class="suggestion-title">
+                    Top vendors
+                </span>
+
+                <span class="suggestion-description">
+                    Identify the highest-paid vendors.
+                </span>
+            </button>
+
+
+            <button
+                class="suggestion-button"
+                data-question="Show transactions over $5,000 in 2014."
+            >
+                <span class="suggestion-title">
+                    Large transactions
+                </span>
+
+                <span class="suggestion-description">
+                    Review individual transactions above $5,000.
+                </span>
+            </button>
+
+
+            <button
+                class="suggestion-button"
+                data-question="Show alcohol purchases in 2014."
+            >
+                <span class="suggestion-title">
+                    Potential exceptions
+                </span>
+
+                <span class="suggestion-description">
+                    Search for alcohol-related transactions.
+                </span>
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div
+        id="ask-status"
+        class="status-message"
+    ></div>
+
+
+    <div
+        id="ask-results"
+        class="results-container"
+    ></div>
+
+</section>
+
+
+
+        <!-- ====================================
+             PROHIBITED PURCHASES
+        ===================================== -->
+
+        <section
+            id="dashboard-tab"
+            class="tab-content"
+        >
+
+            <div class="section-heading">
+
+                <h2>
+                    Prohibited Purchases
+                </h2>
+
+                <p>
+                    Identify transactions that may require
+                    additional audit review.
+                </p>
+
+            </div>
+
+
+
+            <!-- AUDIT NOTICE -->
+
+            <div class="audit-notice">
+
+                <strong>
+                    Audit notice
+                </strong>
+
+                <span>
+                    Search results are potential exceptions only.
+                    Review supporting documentation before determining
+                    whether a policy violation occurred.
+                </span>
+
+            </div>
+
+
+
+            <!-- QUICK FILTERS -->
+
+            <div class="quick-filter-panel">
+
+                <div class="quick-filter-heading">
+
+                    <div>
+
+                        <h3>
+                            Quick Filters
+                        </h3>
+
+                        <p>
+                            Search common prohibited-purchase categories.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="quick-filter-list">
+
+                    <button
+                        class="quick-filter"
+                        data-keyword="alcohol"
+                    >
+                        Alcohol
+                    </button>
+
+                    <button
+                        class="quick-filter"
+                        data-keyword="cash"
+                    >
+                        Cash / ATM
+                    </button>
+
+                    <button
+                        class="quick-filter"
+                        data-keyword="decoration"
+                    >
+                        Decorations
+                    </button>
+
+                    <button
+                        class="quick-filter"
+                        data-keyword="donation"
+                    >
+                        Donations
+                    </button>
+
+                    <button
+                        class="quick-filter"
+                        data-keyword="gasoline"
+                    >
+                        Gasoline
+                    </button>
+
+                    <button
+                        class="quick-filter"
+                        data-keyword="gift"
+                    >
+                        Gifts
+                    </button>
+
+                    <button
+                        class="quick-filter"
+                        data-keyword="insurance"
+                    >
+                        Insurance
+                    </button>
+
+                    <button
+                        class="quick-filter"
+                        data-keyword="late fee"
+                    >
+                        Late Fees
+                    </button>
+
+                    <button
+                        class="quick-filter"
+                        data-keyword="postage"
+                    >
+                        Mail / Postage
+                    </button>
+
+                    <button
+                        class="quick-filter"
+                        data-keyword="moving"
+                    >
+                        Moving
+                    </button>
+
+                    <button
+                        class="quick-filter"
+                        data-keyword="personal"
+                    >
+                        Personal
+                    </button>
+
+                    <button
+                        class="quick-filter"
+                        data-keyword="membership"
+                    >
+                        Memberships
+                    </button>
+
+                    <button
+                        class="quick-filter"
+                        data-keyword="salary"
+                    >
+                        Salary / Wages
+                    </button>
+
+                    <button
+                        class="quick-filter"
+                        data-keyword="award"
+                    >
+                        Employee Awards
+                    </button>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- CONTROLS -->
+
+            <div class="dashboard-controls">
+
+                <div class="control-field">
+
+                    <label for="year-select">
+                        Audit Year
+                    </label>
+
+                    <select id="year-select">
+
+                        <option value="">
+                            Loading years...
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="control-field">
+
+                    <label for="sort-field">
+                        Sort Results By
+                    </label>
+
+                    <select id="sort-field">
+
+                        <option value="TransactionDate">
+                            Date
+                        </option>
+
+                        <option value="Amount">
+                            Amount
+                        </option>
+
+                        <option value="Vendor">
+                            Vendor
+                        </option>
+
+                        <option value="FullName">
+                            Employee
+                        </option>
+
+                        <option value="ID">
+                            Transaction ID
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="control-field">
+
+                    <label for="sort-direction">
+                        Order
+                    </label>
+
+                    <select id="sort-direction">
+
+                        <option value="asc">
+                            Ascending
+                        </option>
+
+                        <option value="desc">
+                            Descending
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="control-field reset-field">
+
+                    <label>
+                        &nbsp;
+                    </label>
+
+                    <button
+                        id="reset-filters-button"
+                        class="secondary-button full-width-button"
+                    >
+                        Reset Filters
+                    </button>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- KPI CARDS -->
+
+            <div class="kpi-grid">
+
+                <div class="kpi-card">
+
+                    <span class="kpi-label">
+                        Matching Transactions
+                    </span>
+
+                    <strong
+                        id="kpi-transactions"
+                        class="kpi-value"
+                    >
+                        —
+                    </strong>
+
+                </div>
+
+
+                <div class="kpi-card">
+
+                    <span class="kpi-label">
+                        Total Value
+                    </span>
+
+                    <strong
+                        id="kpi-total-value"
+                        class="kpi-value"
+                    >
+                        —
+                    </strong>
+
+                </div>
+
+
+                <div class="kpi-card">
+
+                    <span class="kpi-label">
+                        Largest Transaction
+                    </span>
+
+                    <strong
+                        id="kpi-largest"
+                        class="kpi-value"
+                    >
+                        —
+                    </strong>
+
+                </div>
+
+
+                <div class="kpi-card">
+
+                    <span class="kpi-label">
+                        Unique Employees
+                    </span>
+
+                    <strong
+                        id="kpi-employees"
+                        class="kpi-value"
+                    >
+                        —
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- MANUAL SEARCH -->
+
+            <div class="search-grid">
+
+                <div class="card">
+
+                    <h3>
+                        Description Search
+                    </h3>
+
+                    <p>
+                        Search keywords appearing in
+                        transaction descriptions.
+                    </p>
+
+                    <label for="description-keyword">
+                        Description keyword
+                    </label>
+
+                    <input
+                        type="text"
+                        id="description-keyword"
+                        placeholder="Example: alcohol"
+                    >
+
+                    <button
+                        id="description-search-button"
+                        class="primary-button"
+                    >
+                        Search Descriptions
+                    </button>
+
+                    <div class="examples">
+                        Examples: alcohol, gift, gasoline,
+                        insurance, postage, membership
+                    </div>
+
+                </div>
+
+
+                <div class="card">
+
+                    <h3>
+                        Vendor Search
+                    </h3>
+
+                    <p>
+                        Search merchant names for potentially
+                        relevant vendors.
+                    </p>
+
+                    <label for="vendor-keyword">
+                        Vendor keyword
+                    </label>
+
+                    <input
+                        type="text"
+                        id="vendor-keyword"
+                        placeholder="Example: post office"
+                    >
+
+                    <button
+                        id="vendor-search-button"
+                        class="primary-button"
+                    >
+                        Search Vendors
+                    </button>
+
+                    <div class="examples">
+                        Examples: liquor, post office,
+                        insurance, gas
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- STATUS -->
+
+            <div
+                id="search-status"
+                class="status-message"
+            ></div>
+
+
+
+            <!-- RESULTS ACTIONS -->
+
+            <div class="results-toolbar">
+
+                <div
+                    id="results-description"
+                    class="results-description"
+                >
+                </div>
+
+                <button
+                    id="export-csv-button"
+                    class="secondary-button"
+                    disabled
+                >
+                    Export CSV
+                </button>
+
+            </div>
+
+
+
+            <!-- RESULTS -->
+
+            <div
+                id="dashboard-results"
+                class="results-container"
+            >
+
+                <div class="empty-state">
+
+                    <h3>
+                        No search performed
+                    </h3>
+
+                    <p>
+                        Use a quick filter or enter a search keyword
+                        to begin reviewing transactions.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        P-Card Auditor ·
+        Potential exceptions require additional audit review
+        and supporting documentation.
+
+    </footer>
+
+
+    <script src="app.js"></script>
+
+</body>
+
+</html>
