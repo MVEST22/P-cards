@@ -7,7 +7,8 @@ This app helps explore purchasing-card transactions for audit review. The underl
 ## Coursework results
 - Part II: 14 internal-control screening tests
 - Part III: eight fraud-risk screening tests
-- [Read the results and concise explanations](audit/ASSIGNMENT_2_AUDIT_RESULTS.md)
+- **[Full answers to all 22 P-card audit questions](audit/FULL_ASSIGNMENT_2_ANSWERS.md)**
+- [Summary table](audit/ASSIGNMENT_2_AUDIT_RESULTS.md)
 - [All 22 audit SQL queries](audit/all_queries.sql) and [database setup](audit/setup.sql)
 - Part IV: public web interface and search tools
 
